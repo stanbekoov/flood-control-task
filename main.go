@@ -2,10 +2,25 @@ package main
 
 import (
 	"context"
+	"log"
+	"task/config"
+	"task/floodcheck"
+
+	"github.com/joho/godotenv"
 )
 
-func main() {
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("No .env file found")
+	}
+	log.Println("env file loaded succesfully")
+}
 
+func main() {
+	config := config.New()
+	fc := floodcheck.New(config)
+	ctx := context.Background()
+	fc.Check(ctx, 0)
 }
 
 // FloodControl интерфейс, который нужно реализовать.
